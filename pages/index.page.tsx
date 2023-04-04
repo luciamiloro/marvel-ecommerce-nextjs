@@ -30,7 +30,7 @@ const Index: NextPage<IProps>= ({comics, totalComics}) => {
 
 export const getStaticProps:GetStaticProps = async ()=> {
     const data = await getComics(0,12)
-    //console.log(data.results)
+   //console.log(data.results)
     const comics = await data.data
     return { 
         props: {

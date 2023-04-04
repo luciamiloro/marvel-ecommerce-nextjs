@@ -8,8 +8,7 @@ import Typography from '@mui/material/Typography';
 import { getComics } from 'dh-marvel/services/marvel/marvel.service';
 import { GetStaticProps } from 'next';
 import { IComic } from 'dh-marvel/services/interfaces/Comic'
-
-
+import Link from 'next/link';
 
 
 const CardHome = (comic: IComic) => {
@@ -30,7 +29,9 @@ const CardHome = (comic: IComic) => {
     </CardContent>
     <CardActions>
       <Button size="small">COMPRAR</Button>
+      <Link href={`/comics/${comic.id}`}>
       <Button size="small">VER DETALLE</Button>
+      </Link>
     </CardActions>
   </Card>
   </>
