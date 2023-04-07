@@ -23,7 +23,7 @@ const CardsGrid: FC<gridProps> = ({ comics, total }) => {
         //ejecutar una accion
         const obtenerDatos = async () => {
             const offset = (page - 1) * 12
-            const data = await fetch(`http://localhost:3000/api/comics?offset=${offset}`)
+            const data = await fetch(`/api/comics?offset=${offset}`)
             const comicData = await data.json()
             //console.log(comicData.results)
             setComicArray(comicData.results)
@@ -37,7 +37,7 @@ const CardsGrid: FC<gridProps> = ({ comics, total }) => {
     return (
         <>
             <Box sx={{ width: "100%", display: "flex", justifyContent: "center", m: 2 }}>
-                <Typography>Page: {page}</Typography>
+               
                 <Pagination count={totalPages} page={page} onChange={handleChange} />
             </Box>
             <Grid container spacing={4}>

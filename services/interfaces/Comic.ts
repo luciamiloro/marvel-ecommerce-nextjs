@@ -19,7 +19,9 @@ export interface IComic {
         items: IItem[]
       };
 }
-
+export interface ICheckoutCardProps {
+  comic: IComic;
+}
 export interface IItem {
     name: string;
     resourceURI: string;
