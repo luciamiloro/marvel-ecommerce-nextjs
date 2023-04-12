@@ -23,8 +23,8 @@ const PersonalForm: FC<PersonalFormProps> = ({ activeStep, handleNext }: Persona
     const { setFocus, handleSubmit } = methods;
 
     const onSubmit = (data: PersonalFormData) => {
-        //console.log(JSON.stringify(data))
         handleNext(data);
+        console.log(data)
     };
 
     useEffect(() => {

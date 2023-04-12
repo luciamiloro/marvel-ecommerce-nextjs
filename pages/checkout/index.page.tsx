@@ -1,20 +1,28 @@
-import * as React from 'react';
-import Box from '@mui/material/Box';
-import Stepper from '@mui/material/Stepper';
-import Step from '@mui/material/Step';
-import StepLabel from '@mui/material/StepLabel';
-import Typography from '@mui/material/Typography';
-import { NextPage } from 'next';
-import { Stack } from '@mui/material';
-import { useRouter } from 'next/router';
-import LayoutCheckout from 'dh-marvel/components/layouts/layout-checkout';
-import BodySingle from 'dh-marvel/components/layouts/body/single/body-single';
+import * as React from "react";
+import Box from "@mui/material/Box";
+import Stepper from "@mui/material/Stepper";
+import Step from "@mui/material/Step";
+import StepLabel from "@mui/material/StepLabel";
+import Typography from "@mui/material/Typography";
+import { NextPage } from "next";
+import { Stack } from "@mui/material";
+import { useRouter } from "next/router";
+import LayoutCheckout from "dh-marvel/components/layouts/layout-checkout";
+import BodySingle from "dh-marvel/components/layouts/body/single/body-single";
 import Head from "next/head";
-import { DeliveryFormData, PaymentFormData, PersonalFormData} from 'dh-marvel/components/checkoutForms/forms.types';
-import PersonalForm from 'dh-marvel/components/checkoutForms/personalForm';
-import DeliveryForm from 'dh-marvel/components/checkoutForms/deliveryForm';
-import PaymentForm from 'dh-marvel/components/checkoutForms/paymentForm';
+import {
+  DeliveryFormData,
+  PaymentFormData,
+  PersonalFormData,
+} from "dh-marvel/components/checkoutForms/forms.types";
+import PersonalForm from "dh-marvel/components/checkoutForms/personalForm";
+import DeliveryForm from "dh-marvel/components/checkoutForms/deliveryForm";
+import PaymentForm from "dh-marvel/components/checkoutForms/paymentForm";
 
+import { Card, CardContent } from "@mui/material";
+import Image from "next/image";
+import { CheckoutInput } from "dh-marvel/features/checkout/checkout.types";
+import { useForm } from "react-hook-form";
 
 const CheckoutStepper: NextPage = () => {
   const [activeStep, setActiveStep] = React.useState(0);
@@ -25,9 +33,9 @@ const CheckoutStepper: NextPage = () => {
   const comicData = JSON.parse(comic);
   //console.log(comicData)
 
-  React.useEffect(() => { 
+  React.useEffect(() => {
     if (comic) {
-      comicData
+      comicData;
       setOrder({
         ...order,
         order: {
@@ -38,20 +46,20 @@ const CheckoutStepper: NextPage = () => {
           price: comicData.price,
         },
       });
-      //console.log(order)   
+      //console.log(order)
+      //console.log(order.order.image);
     } else {
       router.push("/");
     }
   }, []);
 
-
   const handleSubmitPersonalForm = (data: PersonalFormData) => {
     setOrder({
       ...order,
-      ...data
-    })
-    setActiveStep((prevState) => prevState + 1)
-  }
+      ...data,
+    });
+    setActiveStep((prevState) => prevState + 1);
+  };
 
   const handleSubmitDeliveryForm = (data: DeliveryFormData) => {
     setOrder({
@@ -60,74 +68,162 @@ const CheckoutStepper: NextPage = () => {
     });
 
     setActiveStep((prevState) => prevState + 1);
-  }
+  };
 
   const handleSubmitPaymentForm = (data: PaymentFormData) => {
     setOrder({
       ...order,
-      ...data
-    })
-    setActiveStep((prevState) => prevState + 1)
+      ...data,
+    });
+    setActiveStep((prevState) => prevState + 1);
+  };
+
+
+ //pasar por la api******************************************************
+
+//  const methods = useForm<CheckoutInput>({
+//   },
+// )
+
+// const { setFocus, handleSubmit, getValues } = methods;
+
+ const handleApiSubmit = async () => {
+  //const order = getValues(); // get form data
+  console.log(order)
+  console.log(order.order.name)
+  console.log(order.city)
+  const checkoutData: CheckoutInput = {
+    customer: {
+      name: order.firstname,
+      lastname: order.lastname,
+      email: order.email,
+      address: {
+        address1: order.address,
+        address2: null,
+        city: order.city,
+        state: order.province,
+        zipCode: order.postalcode
+      }
+    },
+    card: {
+      number: order.cardnumber,
+      cvc: order.securitycode,
+      expDate: order.expdate,
+      nameOnCard: order.cardname
+    },
+    order: {
+      name: order.order.name,
+      image: order.order.image,
+      price: order.order.price
+    }
+  };
+
+      const response = await fetch("/api/checkout", 
+      {
+          method: "POST",
+          body: JSON.stringify(checkoutData),
+          headers: {
+              "Content-Type": "application/json"
+          }
+      });
+      const res = await response.json();
+
+console.log(res);
+      
+      if (!res.error) {
+          router.push(
+              {
+                pathname: "/confirmacion-compra",
+                query: { detail: JSON.stringify(res) },
+              }
+            );
+      } else {
+           console.log('errrrrrror');
+      }
+
+};
+React.useEffect(() => {
+  if (activeStep > 2) {
+    setActiveStep(2);
+    handleApiSubmit();
   }
+}, [activeStep]);
+
 
 
   return (
     <>
       <Head>
-        <title>MARVEL | Checkout</title>
-        <meta name="checkout form" content="Form to make the buyout" />
+        <title> Checkout </title>
+        <meta name="checkout" content="Form to buy your new comic" />
       </Head>
-   
-    <BodySingle>
-    <Box sx={{ width: '70%', mt: 6 }}>
-      <Typography variant="h4" sx={{ mb: 3 }} >
-     nombre del comic {order.order.name}
-      </Typography>
-      <Stepper activeStep={activeStep}>
-                    <Step>
-                      <StepLabel>Datos Personales</StepLabel>
-                    </Step>
-                    <Step>
-                      <StepLabel>Dirección de entrega</StepLabel>
-                    </Step>
-                    <Step>
-                      <StepLabel>Datos del pago</StepLabel>
-                    </Step>
-                  </Stepper>
 
-      {activeStep === 0 &&
-        <Stack>
-          <PersonalForm
-            activeStep={activeStep}
-            handleNext={ handleSubmitPersonalForm } />
-        </Stack>
-      }
+      <BodySingle>
+        <Box sx={{ display: 'flex', flexDirection: 'row', width: '100%',alignItems: "center"  }}>
+          <Box sx={{ width: "60%", m: 6, justifyContent: "center" }}>
+            <Typography variant="h4"  align="center" sx={{ mb:4, fontSize:30, fontWeight:800, color:'primary.main' }}>
+              {order.order?.name}
+            </Typography>
+            <Stepper activeStep={activeStep}>
+              <Step>
+                <StepLabel>Datos Personales</StepLabel>
+              </Step>
+              <Step>
+                <StepLabel>Dirección de entrega</StepLabel>
+              </Step>
+              <Step>
+                <StepLabel>Datos del pago</StepLabel>
+              </Step>
+            </Stepper>
 
-      {activeStep === 1 &&
-        <Stack>
-          <DeliveryForm
-            activeStep={activeStep}
-            setActiveStep={setActiveStep}
-            handleNext={ handleSubmitDeliveryForm } />
-        </Stack>
-      }
+            {activeStep === 0 && (
+              <Stack>
+                <PersonalForm
+                  activeStep={activeStep}
+                  handleNext={handleSubmitPersonalForm}
+                />
+              </Stack>
+            )}
 
-      {activeStep === 2 &&
-        <Stack>
-          <PaymentForm
-            activeStep={activeStep}
-            setActiveStep={setActiveStep}
-            handleNext={handleSubmitPaymentForm} />
-        </Stack>
-      }
+            {activeStep === 1 && (
+              <Stack>
+                <DeliveryForm
+                  activeStep={activeStep}
+                  setActiveStep={setActiveStep}
+                  handleNext={handleSubmitDeliveryForm}
+                />
+              </Stack>
+            )}
 
-    </Box>
-    </BodySingle>
+            {activeStep === 2 && (
+              <Stack>
+                <PaymentForm
+                  activeStep={activeStep}
+                  setActiveStep={setActiveStep}
+                  handleNext={handleSubmitPaymentForm}
+                />
+              </Stack>
+            )}
+          </Box>
+          <Card sx={{ width: "15%" , height: "30%" }}>
+            <CardContent>
+              <Image
+                src={order.order?.image}
+                width="184px"
+                height="350px"
+                objectFit="contain"
+                alt={order.order?.image}
+              />
+              <Typography variant="body2" component="div" >
+                {order.order?.name}
+              </Typography>
+              <Typography variant="h6">${order.order?.price}</Typography>
+            </CardContent>
+          </Card>
+        </Box>
+      </BodySingle>
     </>
   );
-}
-(CheckoutStepper as any).Layout = LayoutCheckout;
+};
 
-
-export default CheckoutStepper
-
+export default CheckoutStepper;

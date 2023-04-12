@@ -24,6 +24,7 @@ const DeliveryForm: FC<DeliveryFormProps> = ({ activeStep, handleNext ,  setActi
 
     const onSubmit = (data: DeliveryFormData) => {
         handleNext(data);
+        console.log(data)
     };
 
     useEffect(() => {
