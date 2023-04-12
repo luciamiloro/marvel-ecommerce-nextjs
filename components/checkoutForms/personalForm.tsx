@@ -1,59 +1,57 @@
-/* import React, { FC, useEffect } from 'react'
-import { Controller, useForm } from 'react-hook-form';
-import * as yup from "yup";
+import React, { FC, useEffect } from 'react'
+import { FormProvider, useForm } from 'react-hook-form';
 import { yupResolver } from "@hookform/resolvers/yup";
+import { PersonalFormData, PersonalFormProps, personalDataSchema } from './forms.types';
+import { Box, Typography } from '@mui/material';
+import ControlledInputField from './controlled-inputfield';
+import StepperNavigation from './stepperNavigation';
 
 
-export const loginSchema = yup.object({
-    username: yup.string().required('Username is required').min(3, 'Username should have at least 3 chars'),
-    password: yup.string().required('Password is required')
-  }).required();
 
-export type PersonalFormData ={
-    firstname: string,
-    lastname: string,
-    email: string
-}
+const PersonalForm: FC<PersonalFormProps> = ({ activeStep, handleNext }: PersonalFormProps) => {
 
-export type PersonalFormProps ={
-    activeStep:number,
-    handleNext: (data: PersonalFormData) => void;
-}
-
-const PersonalForm:FC<PersonalFormProps> = (faqsData) => {
-
-    const {control, register, setFocus, handleSubmit} = useForm<FormData>({resolver: yupResolver(loginSchema)});
-
-    const methods = useForm<PersonalFormData>({
-       
-        // resolver: yupResolver(registerFormSchema)
+    //const { control, register, setFocus, handleSubmit } = useForm<FormData>({ resolver: yupResolver(loginSchema) });
+    const methods = useForm<PersonalFormData>({ //useForm = api de context utilizada x reactHookForm
+        resolver: yupResolver(personalDataSchema),
+        defaultValues: {
+            firstname: "Test",
+            lastname: "User",
+            email: "test@user.com",
+        },
     })
 
-    useEffect(() => {
-        setFocus("username");
-    },[])
+    const { setFocus, handleSubmit } = methods;
 
-  return (
-    <form>PersonalForm
-                <Controller 
-                    name="username"
-                    control={control}
-                    defaultValue={""}
-                    // rules={usernameRules}
-                    render={({field: {onChange, value, ref}, formState: {errors}}) => (
-                        <TextField 
-                            onChange={onChange}
-                            value={value}
-                            label={"Username:"} 
-                            inputRef={ref}
-                            fullWidth 
-                            error={!!errors.username}
-                            helperText={`${errors.username?.message || ''}`}
-                        />
-                    )}
-                />
-    </form>
-  )
+    const onSubmit = (data: PersonalFormData) => {
+        //console.log(JSON.stringify(data))
+        handleNext(data);
+    };
+
+    useEffect(() => {
+        setFocus("firstname");
+    }, [setFocus]);
+
+    return (
+        <Box sx={{ m: 3 }} >
+            <Typography variant="h4" component="h4" sx={{ mb: 4 }} >
+                Datos Personales
+            </Typography>
+                <form onSubmit={handleSubmit(onSubmit)}>
+                <FormProvider {...methods}>
+                    <ControlledInputField name={"firstname"} label={"Name"} />
+                    <ControlledInputField name={"lastname"} label={"Last Name"} />
+                    <ControlledInputField name={"email"} label={"Email"} />
+                </FormProvider>
+                </form>
+
+              <StepperNavigation
+                activeStep={activeStep}
+                onPrevClick={() => console.log("do nothing")}
+                onNextClick={handleSubmit(onSubmit)}
+             />  
+        </Box>
+    )
 }
 
-export default PersonalForm */
+
+export default PersonalForm 

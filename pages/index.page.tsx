@@ -5,6 +5,7 @@ import { getComics } from 'dh-marvel/services/marvel/marvel.service';
 import CardHome from 'dh-marvel/components/card/card-home';
 import CardsGrid from "dh-marvel/components/layouts/body/grid/home-grid"
 import { IProps } from 'dh-marvel/services/interfaces/Comic'
+import { Typography } from '@mui/material';
 
 
 
@@ -17,9 +18,11 @@ const Index: NextPage<IProps>= ({comics, totalComics}) => {
                 <meta name="description" content="ecommerce de Marvel Comics"/>
                 <link rel="icon" href="/Marvel_Logo.png"/>
             </Head>
-
-            <BodySingle title={"Marvel Comics"}>
-            
+           
+            <BodySingle>
+            <Typography variant="h1" align="center" sx={{ mt:5, mb:4, fontSize:30, fontWeight:800, color: 'primary.main', textTransform: 'uppercase'  }}>
+                 Marvel Comics
+             </Typography>
             <CardsGrid comics={comics} total={totalComics} />
 
             </BodySingle>

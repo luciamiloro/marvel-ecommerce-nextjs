@@ -30,19 +30,7 @@ export interface IItem {
 export type CaracterDetailProps = {
     comic: IItem[]
 }
-//   export type Comic = {
-//     id?: number,
-//     title: string,
-//     description: string,
-//     thumbnail: {
-//         path: string,
-//         extension: string
-//     },
-//     price:number,
-//     oldPrice:number,
-//     stock:number
-//     characters:Character
-// }
+
 
 export interface IDetailCardProps {
   comic: IComic;
@@ -64,9 +52,6 @@ export type CharacterP = {
   };
 };
 
-// export type Character = {
-//     items: CharacterItem[];
-//   };
 
   export type CharacterItem = {
     resourceURI: string;
