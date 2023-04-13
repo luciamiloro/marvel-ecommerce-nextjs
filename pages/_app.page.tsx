@@ -4,11 +4,13 @@ import LayoutGeneral from "dh-marvel/components/layouts/layout-general";
 import {theme} from "dh-marvel/styles/material-theme";
 
 function MyApp({ Component, pageProps }: AppProps) {
+
+  const Layout = (Component as any).Layout || LayoutGeneral
   return <ThemeProvider theme={theme}>
     <CssBaseline />
-    <LayoutGeneral>
+    <Layout>
       <Component {...pageProps} />
-    </LayoutGeneral>
+    </Layout>
     <style jsx global>{`
               /* Other global styles such as 'html, body' etc... */
 

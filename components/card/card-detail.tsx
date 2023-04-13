@@ -42,7 +42,7 @@ console.log(comic.characters.items)
             onClick={() => {
               router.push(
                 {
-                  pathname: "/checkout",
+                  pathname:"/checkout",
                   query: { comic: JSON.stringify(comic) },
                 },
                 "/checkout"

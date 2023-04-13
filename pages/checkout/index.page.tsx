@@ -5,7 +5,7 @@ import Step from "@mui/material/Step";
 import StepLabel from "@mui/material/StepLabel";
 import Typography from "@mui/material/Typography";
 import { NextPage } from "next";
-import { Stack } from "@mui/material";
+import { Alert, AlertProps, Snackbar, Stack } from "@mui/material";
 import { useRouter } from "next/router";
 import LayoutCheckout from "dh-marvel/components/layouts/layout-checkout";
 import BodySingle from "dh-marvel/components/layouts/body/single/body-single";
@@ -28,30 +28,32 @@ const CheckoutStepper: NextPage = () => {
   const [activeStep, setActiveStep] = React.useState(0);
   const [order, setOrder] = React.useState<any>({});
 
+  const [alertMessage, setAlertMessage] = React.useState<string>("");
+  const [openAlert, setOpenAlert] = React.useState<boolean>(false);
+
   const router = useRouter();
   const { comic }: any = router?.query;
-  const comicData = JSON.parse(comic);
-  //console.log(comicData)
-
+  
+  console.log("Desde afuera del useEffect**************")
+  console.log(order)
   React.useEffect(() => {
     if (comic) {
-      comicData;
+      const comicData = JSON.parse(comic);
       setOrder({
         ...order,
         order: {
           name: comicData.title,
-          image: comicData.images[0]
-            ? `${comicData.images[0]?.path}.${comicData?.images[0]?.extension}`
-            : `${comicData?.thumbnail?.path}.${comicData?.thumbnail?.extension}`,
+          image:`${comicData?.thumbnail?.path}.${comicData?.thumbnail?.extension}`,
           price: comicData.price,
         },
       });
-      //console.log(order)
+      console.log("Desde adentro del useEffect**************")
+      console.log(order)
       //console.log(order.order.image);
     } else {
       router.push("/");
     }
-  }, []);
+  },[]);
 
   const handleSubmitPersonalForm = (data: PersonalFormData) => {
     setOrder({
@@ -78,78 +80,71 @@ const CheckoutStepper: NextPage = () => {
     setActiveStep((prevState) => prevState + 1);
   };
 
+  //pasar data a la api******************************************************
+  //  const methods = useForm<CheckoutInput>({
+  //   },
+  // )
+  // const { setFocus, handleSubmit, getValues } = methods;
 
- //pasar por la api******************************************************
+  const handleApiSubmit = async () => {
+    //const order = getValues(); // get form data
+    console.log(order);
+    console.log(order.order.name);
+    console.log(order.city);
+    const checkoutData: CheckoutInput = {
+      customer: {
+        name: order.firstname,
+        lastname: order.lastname,
+        email: order.email,
+        address: {
+          address1: order.address,
+          address2: null,
+          city: order.city,
+          state: order.province,
+          zipCode: order.postalcode,
+        },
+      },
+      card: {
+        number: order.cardnumber,
+        cvc: order.securitycode,
+        expDate: order.expdate,
+        nameOnCard: order.cardname,
+      },
+      order: {
+        name: order.order.name,
+        image: order.order.image,
+        price: order.order.price,
+      },
+    };
 
-//  const methods = useForm<CheckoutInput>({
-//   },
-// )
+    const response = await fetch("/api/checkout", {
+      method: "POST",
+      body: JSON.stringify(checkoutData),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    const res = await response.json();
 
-// const { setFocus, handleSubmit, getValues } = methods;
+    console.log(res);
 
- const handleApiSubmit = async () => {
-  //const order = getValues(); // get form data
-  console.log(order)
-  console.log(order.order.name)
-  console.log(order.city)
-  const checkoutData: CheckoutInput = {
-    customer: {
-      name: order.firstname,
-      lastname: order.lastname,
-      email: order.email,
-      address: {
-        address1: order.address,
-        address2: null,
-        city: order.city,
-        state: order.province,
-        zipCode: order.postalcode
-      }
-    },
-    card: {
-      number: order.cardnumber,
-      cvc: order.securitycode,
-      expDate: order.expdate,
-      nameOnCard: order.cardname
-    },
-    order: {
-      name: order.order.name,
-      image: order.order.image,
-      price: order.order.price
+    if (!res.error) {
+      router.push({
+        pathname: "/confirmacion-compra",
+        query: { detail: JSON.stringify(res) },
+      });
+    } else {
+      setOpenAlert(true);
+      setAlertMessage(res.message);
+      console.log("errrrrrror");
     }
   };
-
-      const response = await fetch("/api/checkout", 
-      {
-          method: "POST",
-          body: JSON.stringify(checkoutData),
-          headers: {
-              "Content-Type": "application/json"
-          }
-      });
-      const res = await response.json();
-
-console.log(res);
-      
-      if (!res.error) {
-          router.push(
-              {
-                pathname: "/confirmacion-compra",
-                query: { detail: JSON.stringify(res) },
-              }
-            );
-      } else {
-           console.log('errrrrrror');
-      }
-
-};
-React.useEffect(() => {
-  if (activeStep > 2) {
-    setActiveStep(2);
-    handleApiSubmit();
-  }
-}, [activeStep]);
-
-
+  React.useEffect(() => {
+    if (activeStep > 2) {
+      setActiveStep(2);
+      handleApiSubmit();
+    }
+  }, []);
 
   return (
     <>
@@ -159,9 +154,25 @@ React.useEffect(() => {
       </Head>
 
       <BodySingle>
-        <Box sx={{ display: 'flex', flexDirection: 'row', width: '100%',alignItems: "center"  }}>
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "row",
+            width: "100%",
+            alignItems: "center",
+          }}
+        >
           <Box sx={{ width: "60%", m: 6, justifyContent: "center" }}>
-            <Typography variant="h4"  align="center" sx={{ mb:4, fontSize:30, fontWeight:800, color:'primary.main' }}>
+            <Typography
+              variant="h4"
+              align="center"
+              sx={{
+                mb: 4,
+                fontSize: 30,
+                fontWeight: 800,
+                color: "primary.main",
+              }}
+            >
               {order.order?.name}
             </Typography>
             <Stepper activeStep={activeStep}>
@@ -205,16 +216,31 @@ React.useEffect(() => {
               </Stack>
             )}
           </Box>
-          <Card sx={{ width: "15%" , height: "30%" }}>
+
+          <Snackbar
+            open={openAlert}
+            autoHideDuration={6000}
+            onClose={() => setOpenAlert(false)}
+          >
+            <Alert
+              onClose={() => setOpenAlert(false)}
+              severity="error"
+              sx={{ width: "100%" }}
+            >
+              Error message: {alertMessage}
+            </Alert>
+          </Snackbar>
+
+          <Card sx={{ width: "15%", height: "30%" }}>
             <CardContent>
               <Image
-                src={order.order?.image}
+                src={order.order?.image ?? ""}
                 width="184px"
                 height="350px"
                 objectFit="contain"
-                alt={order.order?.image}
+                alt={order.order?.name}
               />
-              <Typography variant="body2" component="div" >
+              <Typography variant="body2" component="div">
                 {order.order?.name}
               </Typography>
               <Typography variant="h6">${order.order?.price}</Typography>
@@ -225,5 +251,7 @@ React.useEffect(() => {
     </>
   );
 };
+
+(CheckoutStepper as any).Layout = LayoutCheckout;
 
 export default CheckoutStepper;
