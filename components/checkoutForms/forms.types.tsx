@@ -73,7 +73,13 @@ export const paySchema = yup
       activeStep: number,
       handleNext: (data: PaymentFormData) => void;
       setActiveStep: (num: number) => void;
+      handleApiSubmit: () => void;
   }
 
   /**********************FORM general fusion index*/
 
+  export type LastStepProps = {
+    activeStep: number,
+    setActiveStep: (num: number) => void;
+    handleApiSubmit: () => void;
+}

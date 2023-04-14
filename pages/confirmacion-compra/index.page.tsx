@@ -15,13 +15,13 @@ const PurchaseConfirmation = () => {
 
   useEffect(() => {
     if (detail) {
-      const { data } = JSON.parse(detail);
+      const {data} = JSON.parse(detail);
       setOrderDetail(data);
       console.log(orderDetail);
     } else {
       router.push("/");
     }
-  },[detail, orderDetail, router]);
+  },[]);
 
   return (
     <>

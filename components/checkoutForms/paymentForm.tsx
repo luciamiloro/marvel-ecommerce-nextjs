@@ -9,16 +9,16 @@ import router from 'next/router';
 import { CheckoutInput } from 'dh-marvel/features/checkout/checkout.types';
 
 
-const PaymentForm: FC<PaymentFormProps> = ({ activeStep, handleNext, setActiveStep }: PaymentFormProps) => {
+const PaymentForm: FC<PaymentFormProps> = ({ activeStep, handleNext, setActiveStep, handleApiSubmit }: PaymentFormProps) => {
     // ROUTER??
 
     const methods = useForm<PaymentFormData>({
 
         resolver: yupResolver(paySchema),
         defaultValues: {
-            cardnumber: "4242424242424242",
-            cardname: "TEST USER",
-            expdate: "02/28",
+            cardnumber:"4242424242424242",
+            cardname:"TEST USER",
+            expdate:"02/28",
             securitycode: "123"
         },
     })
@@ -33,14 +33,11 @@ const PaymentForm: FC<PaymentFormProps> = ({ activeStep, handleNext, setActiveSt
     useEffect(() => {
         setFocus("cardnumber");
     }, [setFocus]);
-
-  
-
-   
+ 
     return (
         <Box sx={{ m: 3 }} >
             <Typography variant="h4" component="h4" sx={{ mb: 4 }} >
-                Datos de pago
+                Payment Information
             </Typography>
             <form onSubmit={handleSubmit(onSubmit)}>
                 <FormProvider {...methods}>
@@ -53,7 +50,8 @@ const PaymentForm: FC<PaymentFormProps> = ({ activeStep, handleNext, setActiveSt
             <StepperNavigation
                 activeStep={activeStep}
                 onPrevClick={() => setActiveStep(1)}
-                onNextClick={handleSubmit(onSubmit)} // pasar por la api
+                onNextClick={handleSubmit(onSubmit)}
+                //handleApiSubmit={ handleApiSubmit } // pasar por la api
             />    
         </Box >
     )

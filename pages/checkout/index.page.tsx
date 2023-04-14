@@ -5,7 +5,7 @@ import Step from "@mui/material/Step";
 import StepLabel from "@mui/material/StepLabel";
 import Typography from "@mui/material/Typography";
 import { NextPage } from "next";
-import { Alert, AlertProps, Snackbar, Stack } from "@mui/material";
+import { Alert, Snackbar, Stack } from "@mui/material";
 import { useRouter } from "next/router";
 import LayoutCheckout from "dh-marvel/components/layouts/layout-checkout";
 import BodySingle from "dh-marvel/components/layouts/body/single/body-single";
@@ -20,9 +20,9 @@ import DeliveryForm from "dh-marvel/components/checkoutForms/deliveryForm";
 import PaymentForm from "dh-marvel/components/checkoutForms/paymentForm";
 
 import { Card, CardContent } from "@mui/material";
-import Image from "next/image";
+import Image from 'next/image';
 import { CheckoutInput } from "dh-marvel/features/checkout/checkout.types";
-import { useForm } from "react-hook-form";
+import LastStep from "dh-marvel/components/checkoutForms/lastStep";
 
 const CheckoutStepper: NextPage = () => {
   const [activeStep, setActiveStep] = React.useState(0);
@@ -86,8 +86,9 @@ const CheckoutStepper: NextPage = () => {
   // )
   // const { setFocus, handleSubmit, getValues } = methods;
 
-  const handleApiSubmit = async () => {
+ const handleApiSubmit = async () => {
     //const order = getValues(); // get form data
+   
     console.log(order);
     console.log(order.order.name);
     console.log(order.city);
@@ -112,7 +113,7 @@ const CheckoutStepper: NextPage = () => {
       },
       order: {
         name: order.order.name,
-        image: order.order.image,
+        image: order.order.image ,
         price: order.order.price,
       },
     };
@@ -138,13 +139,18 @@ const CheckoutStepper: NextPage = () => {
       setAlertMessage(res.message);
       console.log("errrrrrror");
     }
+
+    // setActiveStep(2)
+
   };
+  /*
   React.useEffect(() => {
     if (activeStep > 2) {
       setActiveStep(2);
-      handleApiSubmit();
+       handleApiSubmit();
     }
-  }, []);
+  }, []); cuando
+  */
 
   return (
     <>
@@ -177,13 +183,13 @@ const CheckoutStepper: NextPage = () => {
             </Typography>
             <Stepper activeStep={activeStep}>
               <Step>
-                <StepLabel>Datos Personales</StepLabel>
+                <StepLabel>Personal Information</StepLabel>
               </Step>
               <Step>
-                <StepLabel>Dirección de entrega</StepLabel>
+                <StepLabel>Delivery Adress</StepLabel>
               </Step>
               <Step>
-                <StepLabel>Datos del pago</StepLabel>
+                <StepLabel>Payment Information</StepLabel>
               </Step>
             </Stepper>
 
@@ -212,7 +218,18 @@ const CheckoutStepper: NextPage = () => {
                   activeStep={activeStep}
                   setActiveStep={setActiveStep}
                   handleNext={handleSubmitPaymentForm}
+                  handleApiSubmit={handleApiSubmit}
                 />
+              </Stack>
+            )}
+            {activeStep === 3 && (
+              <Stack>
+                <LastStep
+                 activeStep={activeStep}
+                 setActiveStep={setActiveStep}
+                 handleApiSubmit={handleApiSubmit}
+                />
+               
               </Stack>
             )}
           </Box>
@@ -234,7 +251,7 @@ const CheckoutStepper: NextPage = () => {
           <Card sx={{ width: "15%", height: "30%" }}>
             <CardContent>
               <Image
-                src={order.order?.image ?? ""}
+                src={order.order?.image ?? "/placeholder.png"}
                 width="184px"
                 height="350px"
                 objectFit="contain"

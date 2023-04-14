@@ -25,10 +25,10 @@ console.log(comic.characters.items)
             </Typography>
             <Box component="span" sx={{ display: "flex", flexDirection: "row" }}>
               <Typography sx={{ textDecoration: "line-through" }} color="text.secondary" gutterBottom>
-                Antes ${comic.oldPrice}
+                Before ${comic.oldPrice}
               </Typography>
               <Typography color="text.secondary" gutterBottom sx={{ ml: 3 }}>
-                Ahora ${comic.price}
+                Now ${comic.price}
               </Typography>
             </Box >
 
@@ -49,7 +49,7 @@ console.log(comic.characters.items)
               )
             }}
           >
-            {comic.stock === 0 ? 'SIN STOCK DISPONIBLE' : 'COMPRAR'}
+            {comic.stock === 0 ? 'NO STOCK AVAILABLE' : 'BUY'}
           </Button>
         </CardActions>
       </Card>

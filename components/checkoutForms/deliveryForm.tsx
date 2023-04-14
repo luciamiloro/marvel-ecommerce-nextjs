@@ -34,7 +34,8 @@ const DeliveryForm: FC<DeliveryFormProps> = ({ activeStep, handleNext ,  setActi
     return (
         <Box sx={{ m: 3 }} >
             <Typography variant="h4" component="h4" sx={{ mb: 4 }} >
-                Dirección de entrega
+            Delivery address
+
             </Typography>
             <FormProvider {...methods}>
                 <form onSubmit={handleSubmit(onSubmit)}>

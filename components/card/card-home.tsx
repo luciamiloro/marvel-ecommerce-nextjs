@@ -28,9 +28,9 @@ const CardHome = (comic: IComic) => {
       </Typography>
     </CardContent>
     <CardActions>
-      <Button size="small">COMPRAR</Button>
+      <Button size="small">BUY</Button>
       <Link href={`/comics/${comic.id}`}>
-      <Button size="small">VER DETALLE</Button>
+      <Button size="small">VIEW DETAIL</Button>
       </Link>
     </CardActions>
   </Card>

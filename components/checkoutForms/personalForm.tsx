@@ -10,7 +10,6 @@ import StepperNavigation from './stepperNavigation';
 
 const PersonalForm: FC<PersonalFormProps> = ({ activeStep, handleNext }: PersonalFormProps) => {
 
-    //const { control, register, setFocus, handleSubmit } = useForm<FormData>({ resolver: yupResolver(loginSchema) });
     const methods = useForm<PersonalFormData>({ //useForm = api de context utilizada x reactHookForm
         resolver: yupResolver(personalDataSchema),
         defaultValues: {
@@ -34,7 +33,7 @@ const PersonalForm: FC<PersonalFormProps> = ({ activeStep, handleNext }: Persona
     return (
         <Box sx={{ m: 3 }} >
             <Typography variant="h4" component="h4" sx={{ mb: 4 }} >
-                Datos Personales
+                Personal Information
             </Typography>
                 <form onSubmit={handleSubmit(onSubmit)}>
                 <FormProvider {...methods}>
