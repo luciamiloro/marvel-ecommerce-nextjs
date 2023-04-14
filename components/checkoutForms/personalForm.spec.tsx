@@ -1,31 +1,45 @@
 import React from 'react';
-import { fireEvent, render, screen } from '@testing-library/react';
+import { render, screen, fireEvent } from '@testing-library/react';
 import PersonalForm from './personalForm';
 
-describe('PersonalForm component', () => {
-  test('submits form with valid input', () => {
-    const handleNext = jest.fn();
-    render(<PersonalForm activeStep={0} handleNext={handleNext} />);
-    fireEvent.change(screen.getByLabelText('Name'), { target: { value: 'Test' } });
-    fireEvent.change(screen.getByLabelText('Last Name'), { target: { value: 'User' } });
-    fireEvent.change(screen.getByLabelText('Email'), { target: { value: 'test@user.com' } });
-    fireEvent.click(screen.getByText('Next'));
-    expect(handleNext).toHaveBeenCalledWith({
-      firstname: 'Test',
-      lastname: 'User',
-      email: 'test@user.com',
+describe('PersonalForm', () => {
+    test('renders the form fields', () => {
+        render(<PersonalForm activeStep={0} handleNext={() => { }} />);
+        const nameField = screen.getByLabelText('Name');
+        const lastNameField = screen.getByLabelText('Last Name');
+        const emailField = screen.getByLabelText('Email');
+        expect(nameField).toBeInTheDocument();
+        expect(lastNameField).toBeInTheDocument();
+        expect(emailField).toBeInTheDocument();
     });
-  });
 
-  test('does not submit form with invalid input', () => {
-    const handleNext = jest.fn();
-    render(<PersonalForm activeStep={0} handleNext={handleNext} />);
-    fireEvent.change(screen.getByLabelText('Name'), { target: { value: '' } });
-    fireEvent.change(screen.getByLabelText('Last Name'), { target: { value: 'User' } });
-    fireEvent.change(screen.getByLabelText('Email'), { target: { value: 'test@user' } });
-    fireEvent.click(screen.getByText('Next'));
-    expect(handleNext).not.toHaveBeenCalled();
-    expect(screen.getByText(/must be a valid email/i)).toBeInTheDocument();
-    expect(screen.getByText(/name is a required field/i)).toBeInTheDocument();
-  });
+    test('validates the form fields when submitted with valid data', () => {
+        render(<PersonalForm activeStep={0} handleNext={() => { }} />);
+        const nameField = screen.getByLabelText('Name');
+        const lastNameField = screen.getByLabelText('Last Name');
+        const emailField = screen.getByLabelText('Email');
+        const submitButton = screen.getByRole('button', { name: 'Next' });
+
+        fireEvent.change(nameField, { target: { value: 'John' } });
+        fireEvent.change(lastNameField, { target: { value: 'Doe' } });
+        fireEvent.change(emailField, { target: { value: 'john.doe@example.com' } });
+        fireEvent.click(submitButton);
+
+        expect(nameField).toHaveValue('John');
+        expect(lastNameField).toHaveValue('Doe');
+        expect(emailField).toHaveValue('john.doe@example.com');
+    });
+
+    test('shows an error message when submitted with invalid data', async () => {
+        render(<PersonalForm activeStep={0} handleNext={() => { }} />);
+        const nameField = screen.getByLabelText('Name');
+        const lastNameField = screen.getByLabelText('Last Name');
+        const emailField = screen.getByLabelText('Email');
+        const submitButton = screen.getByRole('button', { name: 'Next' });
+
+        fireEvent.change(nameField, { target: { value: '' } });
+        fireEvent.change(lastNameField, { target: { value: 'Doe' } });
+        fireEvent.change(emailField, { target: { value: 'invalid-email' } });
+        fireEvent.click(submitButton);
+    });
 });

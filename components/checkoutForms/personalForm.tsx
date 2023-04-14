@@ -35,19 +35,19 @@ const PersonalForm: FC<PersonalFormProps> = ({ activeStep, handleNext }: Persona
             <Typography variant="h4" component="h4" sx={{ mb: 4 }} >
                 Personal Information
             </Typography>
-                <form onSubmit={handleSubmit(onSubmit)}>
+            <form onSubmit={handleSubmit(onSubmit)}>
                 <FormProvider {...methods}>
                     <ControlledInputField name={"firstname"} label={"Name"} />
                     <ControlledInputField name={"lastname"} label={"Last Name"} />
                     <ControlledInputField name={"email"} label={"Email"} />
                 </FormProvider>
-                </form>
+            </form>
 
-              <StepperNavigation
+            <StepperNavigation
                 activeStep={activeStep}
                 onPrevClick={() => console.log("do nothing")}
                 onNextClick={handleSubmit(onSubmit)}
-             />  
+            />
         </Box>
     )
 }

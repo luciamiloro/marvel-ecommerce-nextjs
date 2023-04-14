@@ -33,7 +33,7 @@ const CheckoutStepper: NextPage = () => {
 
   const router = useRouter();
   const { comic }: any = router?.query;
-  
+
   console.log("Desde afuera del useEffect**************")
   console.log(order)
   React.useEffect(() => {
@@ -43,7 +43,7 @@ const CheckoutStepper: NextPage = () => {
         ...order,
         order: {
           name: comicData.title,
-          image:`${comicData?.thumbnail?.path}.${comicData?.thumbnail?.extension}`,
+          image: `${comicData?.thumbnail?.path}.${comicData?.thumbnail?.extension}`,
           price: comicData.price,
         },
       });
@@ -53,7 +53,7 @@ const CheckoutStepper: NextPage = () => {
     } else {
       router.push("/");
     }
-  },[]);
+  }, []);
 
   const handleSubmitPersonalForm = (data: PersonalFormData) => {
     setOrder({
@@ -86,9 +86,9 @@ const CheckoutStepper: NextPage = () => {
   // )
   // const { setFocus, handleSubmit, getValues } = methods;
 
- const handleApiSubmit = async () => {
+  const handleApiSubmit = async () => {
     //const order = getValues(); // get form data
-   
+
     console.log(order);
     console.log(order.order.name);
     console.log(order.city);
@@ -113,7 +113,7 @@ const CheckoutStepper: NextPage = () => {
       },
       order: {
         name: order.order.name,
-        image: order.order.image ,
+        image: order.order.image,
         price: order.order.price,
       },
     };
@@ -225,11 +225,11 @@ const CheckoutStepper: NextPage = () => {
             {activeStep === 3 && (
               <Stack>
                 <LastStep
-                 activeStep={activeStep}
-                 setActiveStep={setActiveStep}
-                 handleApiSubmit={handleApiSubmit}
+                  activeStep={activeStep}
+                  setActiveStep={setActiveStep}
+                  handleApiSubmit={handleApiSubmit}
                 />
-               
+
               </Stack>
             )}
           </Box>

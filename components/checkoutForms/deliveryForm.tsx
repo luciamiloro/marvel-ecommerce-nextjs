@@ -39,10 +39,10 @@ const DeliveryForm: FC<DeliveryFormProps> = ({ activeStep, handleNext ,  setActi
             </Typography>
             <FormProvider {...methods}>
                 <form onSubmit={handleSubmit(onSubmit)}>
-                    <ControlledInputField name={"address"} label={"Direction and number"} />
+                    <ControlledInputField name={"address"} label={"Address"} />
                     <ControlledInputField name={"department"} label={"Department"} />
                     <ControlledInputField name={"city"} label={"City"} />
-                    <ControlledInputField name={"province"} label={"Province"} />
+                    <ControlledInputField name={"province"} label={"Province/State"} />
                     <ControlledInputField name={"postalcode"} label={"Postal Code"} />
                 </form>
             </FormProvider>

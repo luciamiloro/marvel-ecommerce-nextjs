@@ -1,12 +1,7 @@
-import React, { FC, useEffect } from 'react'
-import { FormProvider, useForm } from 'react-hook-form';
-import { yupResolver } from "@hookform/resolvers/yup";
-import { LastStepProps, PaymentFormData, PaymentFormProps, paySchema } from './forms.types';
+import React, { FC } from 'react'
+import { LastStepProps} from './forms.types';
 import { Box, Typography } from '@mui/material';
-import ControlledInputField from './controlled-inputfield';
 import StepperNavigation from './stepperNavigation';
-
-
 
 const LastStep: FC<LastStepProps> = ({ activeStep, setActiveStep , handleApiSubmit}: LastStepProps) => {
 

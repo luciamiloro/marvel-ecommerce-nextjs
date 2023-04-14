@@ -5,8 +5,6 @@ import { PaymentFormData, PaymentFormProps, paySchema } from './forms.types';
 import { Box, Typography } from '@mui/material';
 import ControlledInputField from './controlled-inputfield';
 import StepperNavigation from './stepperNavigation';
-import router from 'next/router';
-import { CheckoutInput } from 'dh-marvel/features/checkout/checkout.types';
 
 
 const PaymentForm: FC<PaymentFormProps> = ({ activeStep, handleNext, setActiveStep, handleApiSubmit }: PaymentFormProps) => {
@@ -16,9 +14,9 @@ const PaymentForm: FC<PaymentFormProps> = ({ activeStep, handleNext, setActiveSt
 
         resolver: yupResolver(paySchema),
         defaultValues: {
-            cardnumber:"4242424242424242",
-            cardname:"TEST USER",
-            expdate:"02/28",
+            cardnumber: "4242424242424242",
+            cardname: "TEST USER",
+            expdate: "02/28",
             securitycode: "123"
         },
     })
@@ -33,7 +31,7 @@ const PaymentForm: FC<PaymentFormProps> = ({ activeStep, handleNext, setActiveSt
     useEffect(() => {
         setFocus("cardnumber");
     }, [setFocus]);
- 
+
     return (
         <Box sx={{ m: 3 }} >
             <Typography variant="h4" component="h4" sx={{ mb: 4 }} >
@@ -41,9 +39,9 @@ const PaymentForm: FC<PaymentFormProps> = ({ activeStep, handleNext, setActiveSt
             </Typography>
             <form onSubmit={handleSubmit(onSubmit)}>
                 <FormProvider {...methods}>
-                    <ControlledInputField name={"cardnumber"} label={"Número de tarjeta"} />
-                    <ControlledInputField name={"cardname"} label={"Nombre como aparece en la tarjeta"} />
-                    <ControlledInputField name={"expdate"} label={"expirationdate"} />
+                    <ControlledInputField name={"cardnumber"} label={"Card Number"} />
+                    <ControlledInputField name={"cardname"} label={"Name on Card"} />
+                    <ControlledInputField name={"expdate"} label={"Expiration Date"} />
                     <ControlledInputField name={"securitycode"} label={"CVV"} type="password" />
                 </FormProvider>
             </form>
@@ -51,8 +49,8 @@ const PaymentForm: FC<PaymentFormProps> = ({ activeStep, handleNext, setActiveSt
                 activeStep={activeStep}
                 onPrevClick={() => setActiveStep(1)}
                 onNextClick={handleSubmit(onSubmit)}
-                //handleApiSubmit={ handleApiSubmit } // pasar por la api
-            />    
+            //handleApiSubmit={ handleApiSubmit } // pasar por la api
+            />
         </Box >
     )
 }
