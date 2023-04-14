@@ -16,7 +16,7 @@ const StepperNavigation:FC<StepperNavigationProps> = ({activeStep, onPrevClick, 
         }
         <Box sx={{flex: '1 1 auto'}} />
         <Button onClick={ onNextClick }>
-            {activeStep === 3 ? 'BUY YOUR COMIC' : 'Next' }
+            {activeStep === 3 ? 'BUY COMIC' : 'Next' }
         </Button>
     </Stack>
   )
