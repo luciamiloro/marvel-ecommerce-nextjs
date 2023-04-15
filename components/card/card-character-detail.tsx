@@ -10,7 +10,7 @@ const CharacterDetail: FC<CaracterDetailProps> = ({ comic }) => {
       const id = myArray.pop()
       return id;
     }
-    console.log(idResourceURI) 
+     
     return (
         <>
         <Box>

@@ -7,8 +7,6 @@ import CharacterDetail from './card-character-detail';
 
 const CardDetail:FC<IDetailCardProps> = ({ comic }) => {
 
-console.log(comic.characters.items)
-
   return (
     <Paper sx={{ width: 500, m: 3 }}>
       <Card sx={{ display: "flex", flexDirection: "column", justifyContent: "center", pb: 3 }}>

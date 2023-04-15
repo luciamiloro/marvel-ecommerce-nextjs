@@ -16,9 +16,7 @@ const CardsGrid: FC<gridProps> = ({ comics, total }) => {
     const handleChange = (event: React.ChangeEvent<unknown>, value: number) => {
         setPage(value);
     };
-
     const [comicArray, setComicArray] = useState<IComic[]>([]);
-
     useEffect(() => {
         //ejecutar una accion
         const obtenerDatos = async () => {

@@ -17,7 +17,6 @@ const PurchaseConfirmation = () => {
     if (detail) {
       const {data} = JSON.parse(detail);
       setOrderDetail(data);
-      console.log(orderDetail);
     } else {
       router.push("/");
     }

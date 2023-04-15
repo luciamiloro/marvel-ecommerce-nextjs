@@ -34,8 +34,8 @@ const CheckoutStepper: NextPage = () => {
   const router = useRouter();
   const { comic }: any = router?.query;
 
-  console.log("Desde afuera del useEffect**************")
-  console.log(order)
+  //  console.log("Desde afuera del useEffect**************")
+  //  console.log(order)
   React.useEffect(() => {
     if (comic) {
       const comicData = JSON.parse(comic);
@@ -47,9 +47,9 @@ const CheckoutStepper: NextPage = () => {
           price: comicData.price,
         },
       });
-      console.log("Desde adentro del useEffect**************")
-      console.log(order)
-      //console.log(order.order.image);
+      //console.log("Desde adentro del useEffect**************")
+      //console.log(order)
+
     } else {
       router.push("/");
     }
@@ -80,18 +80,7 @@ const CheckoutStepper: NextPage = () => {
     setActiveStep((prevState) => prevState + 1);
   };
 
-  //pasar data a la api******************************************************
-  //  const methods = useForm<CheckoutInput>({
-  //   },
-  // )
-  // const { setFocus, handleSubmit, getValues } = methods;
-
   const handleApiSubmit = async () => {
-    //const order = getValues(); // get form data
-
-    console.log(order);
-    console.log(order.order.name);
-    console.log(order.city);
     const checkoutData: CheckoutInput = {
       customer: {
         name: order.firstname,
@@ -127,7 +116,6 @@ const CheckoutStepper: NextPage = () => {
     });
     const res = await response.json();
 
-    console.log(res);
 
     if (!res.error) {
       router.push({
@@ -137,20 +125,9 @@ const CheckoutStepper: NextPage = () => {
     } else {
       setOpenAlert(true);
       setAlertMessage(res.message);
-      console.log("errrrrrror");
     }
-
-    // setActiveStep(2)
 
   };
-  /*
-  React.useEffect(() => {
-    if (activeStep > 2) {
-      setActiveStep(2);
-       handleApiSubmit();
-    }
-  }, []); cuando
-  */
 
   return (
     <>

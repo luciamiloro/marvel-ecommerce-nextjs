@@ -72,6 +72,4 @@ describe('StepperNavigation', () => {
     fireEvent.click(screen.getByText('Next'));
     expect(onNextClick).toHaveBeenCalledTimes(1);
   });
-
-
 });

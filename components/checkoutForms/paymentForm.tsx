@@ -25,7 +25,6 @@ const PaymentForm: FC<PaymentFormProps> = ({ activeStep, handleNext, setActiveSt
 
     const onSubmit = (data: PaymentFormData) => {
         handleNext(data);
-        console.log(data)
     };
 
     useEffect(() => {
