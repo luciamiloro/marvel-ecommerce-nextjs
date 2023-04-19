@@ -5,7 +5,7 @@ import Step from "@mui/material/Step";
 import StepLabel from "@mui/material/StepLabel";
 import Typography from "@mui/material/Typography";
 import { NextPage } from "next";
-import { Alert, Snackbar, Stack } from "@mui/material";
+import { Alert, Snackbar, Stack} from "@mui/material";
 import { useRouter } from "next/router";
 import LayoutCheckout from "dh-marvel/components/layouts/layout-checkout";
 import BodySingle from "dh-marvel/components/layouts/body/single/body-single";
@@ -24,6 +24,7 @@ import Image from 'next/image';
 import { CheckoutInput } from "dh-marvel/features/checkout/checkout.types";
 import LastStep from "dh-marvel/components/checkoutForms/lastStep";
 
+
 const CheckoutStepper: NextPage = () => {
   const [activeStep, setActiveStep] = React.useState(0);
   const [order, setOrder] = React.useState<any>({});
@@ -32,7 +33,7 @@ const CheckoutStepper: NextPage = () => {
   const [openAlert, setOpenAlert] = React.useState<boolean>(false);
 
   const router = useRouter();
-  const { comic }: any = router?.query;
+  const { comic }: any = router?.query ;
 
   //  console.log("Desde afuera del useEffect**************")
   //  console.log(order)
@@ -137,13 +138,12 @@ const CheckoutStepper: NextPage = () => {
       </Head>
 
       <BodySingle>
-        <Box
-          sx={{
-            display: "flex",
-            flexDirection: "row",
-            width: "100%",
-            alignItems: "center",
-          }}
+        <Stack
+            direction={{ xs: "column", md: "row" }}
+            spacing={{ xs: 2, md: 6 }}
+            justifyContent="center"
+            alignItems="center"
+            
         >
           <Box sx={{ width: "60%", m: 6, justifyContent: "center" }}>
             <Typography
@@ -158,7 +158,11 @@ const CheckoutStepper: NextPage = () => {
             >
               {order.order?.name}
             </Typography>
-            <Stepper activeStep={activeStep}>
+            <Stepper activeStep={activeStep} 
+            orientation='vertical'
+            sx={{
+              flexDirection: { xs: 'column', sm: 'row' }
+            }}>
               <Step>
                 <StepLabel>Personal Information</StepLabel>
               </Step>
@@ -225,12 +229,15 @@ const CheckoutStepper: NextPage = () => {
             </Alert>
           </Snackbar>
 
-          <Card sx={{ width: "15%", height: "30%" }}>
+          <Card sx={{
+        width: "20% ",
+        
+      }}>
             <CardContent>
               <Image
                 src={order.order?.image ?? "/placeholder.png"}
-                width="184px"
-                height="350px"
+                width={200}
+                height={300}
                 objectFit="contain"
                 alt={order.order?.name}
               />
@@ -240,7 +247,7 @@ const CheckoutStepper: NextPage = () => {
               <Typography variant="h6">${order.order?.price}</Typography>
             </CardContent>
           </Card>
-        </Box>
+        </Stack>
       </BodySingle>
     </>
   );

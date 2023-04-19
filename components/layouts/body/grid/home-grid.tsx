@@ -35,8 +35,7 @@ const CardsGrid: FC<gridProps> = ({ comics, total }) => {
     return (
         <>
             <Box sx={{ width: "100%", display: "flex", justifyContent: "center", m: 2 }}>
-               
-                <Pagination count={totalPages} page={page} onChange={handleChange} />
+                <Pagination count={totalPages} page={page} onChange={handleChange}  boundaryCount={0} />
             </Box>
             <Grid container spacing={4}>
                 { page=== 1 ?
