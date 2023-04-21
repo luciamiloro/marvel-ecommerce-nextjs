@@ -6,8 +6,11 @@ import CardHome from "dh-marvel/components/card/card-home";
 import CardsGrid from "dh-marvel/components/layouts/body/grid/home-grid";
 import { IProps } from "dh-marvel/services/interfaces/Comic";
 import { Typography } from "@mui/material";
+import Loading from "dh-marvel/components/loading";
 
 const Index: NextPage<IProps> = ({ comics, totalComics }) => {
+  
+  if (!comics) return <Loading />;
 return (
    <>
     <Head>
@@ -38,7 +41,7 @@ return (
 
 export const getStaticProps: GetStaticProps = async (context) => {
   const data = await getComics(0, 12);
-  //console.log(data.results)
+  console.log(data)
   const comics = await data.data;
   return {
     props: {

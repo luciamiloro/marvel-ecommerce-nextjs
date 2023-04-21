@@ -24,7 +24,7 @@ describe('CardHome', () => {
     render(<CardHome description={''} oldPrice={0} price={0} stock={0} characters={{
         items: []
     }} {...mockComic} />);
-    const buyButton = screen.getByText('BUY');
+    const buyButton = screen.getByText('COMPRAR');
     expect(buyButton).toBeInTheDocument();
   });
 
@@ -32,7 +32,7 @@ describe('CardHome', () => {
     render(<CardHome description={''} oldPrice={0} price={0} stock={0} characters={{
         items: []
     }} {...mockComic} />);
-    const viewDetailButton = screen.getByText('VIEW DETAIL');
+    const viewDetailButton = screen.getByText('VER DETALLE');
     expect(viewDetailButton).toBeInTheDocument();
 
   });

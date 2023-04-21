@@ -47,7 +47,7 @@ const CardDetail:FC<IDetailCardProps> = ({ comic }) => {
               )
             }}
           >
-            {comic.stock === 0 ? 'NO STOCK AVAILABLE' : 'BUY'}
+            {comic.stock === 0 ? 'Sin stock disponible' : 'COMPRAR'}
           </Button>
         </CardActions>
       </Card>

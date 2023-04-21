@@ -35,7 +35,7 @@ const PurchaseConfirmation = () => {
             align="center"
             sx={{ mt: 5, mb: 4, fontSize: 30, fontWeight: 800, color: "white" }}
           >
-            Enjoy your purchase {orderDetail?.customer.name} ! 👽
+            Que disfrutes tu compra
           </Typography>
         </Box>
 

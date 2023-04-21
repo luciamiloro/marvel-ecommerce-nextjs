@@ -38,7 +38,7 @@ const PaymentForm: FC<PaymentFormProps> = ({ activeStep, handleNext, setActiveSt
             </Typography>
             <form onSubmit={handleSubmit(onSubmit)}>
                 <FormProvider {...methods}>
-                    <ControlledInputField name={"cardnumber"} label={"Card Number"} />
+                    <ControlledInputField name={"cardnumber"} label={"Card Number"} type="number"/>
                     <ControlledInputField name={"cardname"} label={"Name on Card"} />
                     <ControlledInputField name={"expdate"} label={"Expiration Date"} />
                     <ControlledInputField name={"securitycode"} label={"CVV"} type="password" />

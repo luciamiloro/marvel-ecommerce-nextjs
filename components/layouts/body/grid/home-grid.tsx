@@ -6,7 +6,7 @@ import { IComic } from 'dh-marvel/services/interfaces/Comic';
 import { Box, Pagination, Typography } from '@mui/material'
 
 type gridProps = {
-    comics: IComic[],
+    comics?: IComic[],
     total: number
 }
 
@@ -22,13 +22,13 @@ const CardsGrid: FC<gridProps> = ({ comics, total }) => {
         const obtenerDatos = async () => {
             const offset = (page - 1) * 12
             const data = await fetch(`/api/comics?offset=${offset}`)
-            const comicData = await data.json()
+            const comicData = await data?.json()
             //console.log(comicData.results)
             setComicArray(comicData.results)
         }
         obtenerDatos()
 
-    }, [page, comicArray])
+    }, [page])
 
     const totalPages = Math.ceil(total / 12)
 
