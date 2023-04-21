@@ -41,7 +41,7 @@ const PaymentForm: FC<PaymentFormProps> = ({ activeStep, handleNext, setActiveSt
                     <ControlledInputField name={"cardnumber"} label={"Card Number"} type="number"/>
                     <ControlledInputField name={"cardname"} label={"Name on Card"} />
                     <ControlledInputField name={"expdate"} label={"Expiration Date"} />
-                    <ControlledInputField name={"securitycode"} label={"CVV"} type="password" />
+                    <ControlledInputField name={"securitycode"} label={"CVV"}  />
                 </FormProvider>
             </form>
             <StepperNavigation
